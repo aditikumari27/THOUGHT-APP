@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thought Journal - Your Daily Reflection Space</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #bc7625;
+            --secondary-color: #ad880f;
+            --bg-light: linear-gradient(135deg,rgb(255, 255, 215),rgb(253, 227, 166));
+            --text-light: #110f0a;
+        }
+
+        body {
+            background: var(--bg-light);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: rgba(248, 235, 216, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-custom {
+            color: #ea9d0f;
+            border-radius: 30px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-custom-primary {
+            background-color: var(--primary-color);
+            color: rgb(241, 241, 240);
+        }
+
+        .btn-custom-outline {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(23, 23, 23, 0.56);
+        }
+
+        .hero {
+            background: linear-gradient(rgba(61, 50, 33, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            color: rgb(248, 240, 201);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .floating-pen {
+            position: absolute;
+            font-size: 3rem;
+            color: #fee5ca;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .pen-1 { top: 20%; left: 20%; animation-delay: 0s; }
+        .pen-2 { top: 30%; right: 25%; animation-delay: 0.5s; }
+        .pen-3 { bottom: 25%; left: 30%; animation-delay: 1s; }
+        
+         .recommendation-section {
+            background: linear-gradient(135deg, #6d6d2270 0%, #e8e1d628 100%);
+            background-image: url('bg1.jpg');
+            padding: 5rem 0;
+        }
+
+        .recommendation-item {
+            background-image: url('static/bg4.jpg');
+            background-size: cover; background-position: center; background-repeat: no-repeat; margin: 2rem;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(1, 1, 1, 1.1);
+            transition: transform 0.3s ease;
+        }
+
+        .recommendation-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .fact-section {
+            background: linear-gradient(135deg, #fbfbf870 0%, #e8e1d628 100%);
+            background-image: url('bg1.jpg');
+            padding: 5rem 0;
+        }
+
+        .fact-card {
+            background:linear-gradient(rgb(252, 252, 249),rgb(232, 117, 23));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 1.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .reviews-section {
+            background: linear-gradient(rgb(224, 183, 96,rgb(252, 252, 249)));
+            padding: 5rem 0;
+
+        }
+
+        .review-card {
+            background: rgb(246, 239, 239);
+            background-image: url('static/bg5.jpg');
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            border-radius: 25px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(2, 2, 1, 1.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .reviewer-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid var(--primary-color);
+        }
+
+        .stars {
+            color: #ffd700;
+            margin: 1rem 0;
+        }
+
+        footer {
+            background: #4e3013c9;
+            color: rgb(251, 248, 248);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #f9f8f8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: rgb(238, 237, 235);
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(234, 225, 209, 0.54);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-feather-alt me-2"></i>Thought Journal
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href={{ url_for('index')}}>Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ url_for('thought')}}>Thought Writing</a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ url_for('about')}}>About</a></li>
+                </ul>
+                <div class="ms-3">
+                    <button class="btn btn-custom btn-custom-outline me-2"><a href="{{ url_for('login')}}" style="text-decoration: none;">Login</a></button>
+                    <button class="btn btn-custom btn-custom-primary" > <a href="{{ url_for('signup')}}" style="text-decoration: none;">Sign Up</a></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero d-flex align-items-center">
+        <i class="fas fa-feather-alt floating-pen pen-1"></i>
+        <i class="fas fa-pen-fancy floating-pen pen-2"></i>
+        <i class="fas fa-pen-nib floating-pen pen-3"></i>
+        <div class="container hero-content">
+            <h1 class="display-4 fw-bold mb-4">Welcome to Your Thought Journal</h1>
+            <p class="lead mb-4">A safe space to reflect, write, and grow through your thoughts.</p>
+            <blockquote class="blockquote text-white mb-4">
+                <p class="fst-italic">"The only limit to our realization of tomorrow is our doubts of today."</p>
+            </blockquote>
+            <button class="btn btn-custom btn-custom-primary btn-lg">Start Your Journey</button>
+        </div>
+    </section>
+
+    <main>
+        <!-- Replace the recommendation section with this -->
+<section class="container my-5 py-5">
+    <h2 class="text-center mb-5  text decoration-underline">
+        <i class="fas fa-book-reader me-2"></i>
+        Recommendations for You 
+    </h2>
+    <div class="row g-4">
+        <div class="col-md-4" >
+            <div class="recommendation-item">
+                <div class="item-header mb-3">
+                    <i class="fas fa-book fa-2x text-light mb-3"></i>
+                    <h3>Must-Read Books</h3>
+                </div>
+                <div class="book-list">
+                    <div class="book-item mb-3">
+                        <h5 class="text-light">The Power of Now</h5>
+                        <p class="mb-2">by Eckhart Tolle</p>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-light" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="book-item mb-3" >
+                        <h5 class="text-light">Atomic Habits</h5>
+                        <p class="mb-2">by James Clear</p>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-light" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="book-item">
+                        <h5 class="text-light">Man's Search for Meaning</h5>
+                        <p class="mb-2">by Viktor E. Frankl</p>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-light" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="font-size: large;">
+            <div class="recommendation-item">
+                <div class="item-header mb-3">
+                    <i class="fas fa-feather-alt fa-2x text-light mb-3"></i>
+                    <h3>Inspiring Poems</h3>
+                </div>
+                <div class="poem-list">
+                    <div class="poem-item mb-4">
+                        <h5 class="text-light">If—</h5>
+                        <p class="fst-italic">by Rudyard Kipling</p>
+                        <span class="badge bg-dark">Classic</span>
+                    </div>
+                    <div class="poem-item mb-4">
+                        <h5 class="text-light">The Road Not Taken</h5>
+                        <p class="fst-italic">by Robert Frost</p>
+                        <span class="badge bg-dark">Nature</span>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="font-size:large ;">
+            <div class="recommendation-item">
+                <div class="item-header mb-3">
+                    <i class="fas fa-lightbulb fa-2x text-light mb-3"></i>
+                    <h3>Daily Prompts</h3>
+                </div>
+                <div class="prompt-list">
+                    <div class="prompt-item mb-3 p-3 bg-light rounded">
+                        <i class="fas fa-smile text-warning me-2"></i>
+                        <span>What made you smile today?</span>
+                    </div>
+                    <div class="prompt-item mb-3 p-3 bg-light rounded">
+                        <i class="fas fa-brain text-warning me-2"></i>
+                        <span>What's one thing you learned recently?</span>
+                    </div>
+                    <div class="prompt-item p-3 bg-light rounded">
+                        <i class="fas fa-heart text-warning me-2"></i>
+                        <span>What are you grateful for?</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Replace the facts section with this -->
+<section class="container my-5 py-5">
+    <h2 class="text-center mb-5">
+        <i class="fas fa-lightbulb me-2"></i>
+        Interesting Facts
+    </h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="fact-card">
+                <div class="fact-icon mb-4">
+                    <i class="fas fa-brain fa-3x text-warning"></i>
+                </div>
+                <h3 class="mb-3">Brain Power</h3>
+                <div class="fact-content">
+                    <p class="mb-4">Reading for just 6 minutes can reduce stress levels by 68%.</p>
+                    <div class="fact-progress">
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-warning " style="width: 68%"></div>
+                        </div>
+                        <small class="text-muted mt-2 d-block">Stress Reduction</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="fact-card">
+                <div class="fact-icon mb-4">
+                    <i class="fas fa-heart fa-3x text-warning"></i>
+                </div>
+                <h3 class="mb-3">Mental Health </h3>
+                <div class="fact-content">
+                    <p class="mb-4">Journal writing can boost mood and enhance well-being.</p>
+                    <div class="fact-stats d-flex justify-content-around">
+                        <div class="stat-item text-center">
+                            <h4 class="text-light">87%</h4>
+                            <small>Mood Improvement</small>
+                        </div>
+                        <div class="stat-item text-center">
+                            <h4 class="text-light">92%</h4>
+                            <small>Stress Relief</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-md-4">
+            <div class="fact-card">
+                <div class="fact-icon mb-4">
+                    <i class="fas fa-paint-brush fa-3x text-warning"></i>
+                </div>
+                <h3 class="mb-3">Creativity</h3>
+                <div class="fact-content">
+                    <p class="mb-4">Regular writing improves cognitive processing.</p>
+                    <div class="fact-benefits">
+                        <div class="benefit-item d-flex align-items-center mb-2">
+                            <i class="fas fa-check text-warning me-2"></i>
+                            <span>Better Memory</span>
+                        </div>
+                        <div class="benefit-item d-flex align-items-center mb-2">
+                            <i class="fas fa-check text-warning me-2"></i>
+                            <span>Enhanced Focus</span>
+                        </div>
+                        <div class="benefit-item d-flex align-items-center">
+                            <i class="fas fa-check text-warning me-2"></i>
+                            <span>Improved Clarity</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Replace the reviews section with this -->
+<section class="reviews-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">
+            <i class="fas fa-star me-2"></i>
+            What Our Users Say
+        </h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="review-card">
+                    <div class="review-header mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Sarah Johnson" class="reviewer-img">
+                        <div class="reviewer-badge">
+                            <span class="badge bg-warning">Premium User</span>
+                        </div>
+                    </div>
+                    <h4 class="mb-3">Sarah Johnson</h4>
+                    <div class="stars mb-3">★★★★★</div>
+                    <p class="review-text">"This journal has transformed my daily reflection practice. It's beautifully designed and easy to use!"</p>
+                    <div class="review-stats mt-4">
+                        <div class="stat-item">
+                            <small class="text-muted">Using since</small>
+                            <p class="mb-0">6 months</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="review-card">
+                    <div class="review-header mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Michael Chen" class="reviewer-img">
+                        <div class="reviewer-badge">
+                            <span class="badge bg-warning">Pro Writer</span>
+                        </div>
+                    </div>
+                    <h4 class="mb-3">Michael Chen</h4>
+                    <div class="stars mb-3">★★★★★</div>
+                    <p class="review-text">"The daily prompts are incredibly thoughtful. They've helped me discover new perspectives."</p>
+                    <div class="review-stats mt-4">
+                        <div class="stat-item">
+                            <small class="text-muted">Using since</small>
+                            <p class="mb-0">1 year</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="review-card">
+                    <div class="review-header mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Emma Wilson" class="reviewer-img">
+                        <div class="reviewer-badge">
+                            <span class="badge bg-warning">Top Contributor</span>
+                        </div>
+                    </div>
+                    <h4 class="mb-3">Emma Wilson</h4>
+                    <div class="stars mb-3">★★★★★</div>
+                    <p class="review-text">"A wonderful platform for self-reflection and personal growth. Highly recommended!"</p>
+                    <div class="review-stats mt-4">
+                        <div class="stat-item">
+                            <small class="text-muted">Using since</small>
+                            <p class="mb-0">9 months</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>Thought Journal is your digital sanctuary for personal reflection, growth, and mindfulness practice.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thought Journal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #f6f5f4, #cf9708da);
+            font-family: Arial, sans-serif;
+            padding: 1rem;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: clamp(1.5rem, 5vw, 2rem);
+            border-radius: clamp(20px, 5vw, 40px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: min(90%, 400px);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
+            font-size: clamp(1.5rem, 4vw, 2rem);
+        }
+
+        .input-group {
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+            position: relative;
+            width: 100%;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: clamp(0.8rem, 2vw, 1rem);
+            border: 2px solid #e1e1e1;
+            border-radius: clamp(8px, 2vw, 10px);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #6b48ff;
+            box-shadow: 0 0 0 3px rgba(107, 72, 255, 0.2);
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            padding: 0 0.5rem;
+            color: #666;
+            cursor: text;
+            transition: all 0.3s ease;
+            background: white;
+            pointer-events: none;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -0.5rem;
+            left: 0.8rem;
+            font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+            color: #6b48ff;
+        }
+
+        .button-group {
+            display: flex;
+            gap: clamp(0.5rem, 2vw, 1rem);
+            margin-bottom: clamp(0.8rem, 2vw, 1rem);
+            flex-direction: row;
+        }
+
+        @media (max-width: 380px) {
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        .login-btn, .signup-btn {
+            flex: 1;
+            padding: clamp(0.8rem, 2vw, 1rem);
+            border: none;
+            border-radius: clamp(8px, 2vw, 10px);
+            color: rgb(9, 8, 8);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, #ecda33, #f5ef9c);
+        }
+
+        .signup-btn {
+            background: linear-gradient(45deg, #ecda33, #f5ef9c);
+            text-decoration: none;
+        }
+
+        .login-btn:hover, .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(107, 72, 255, 0.4);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: clamp(0.8rem, 2vw, 1rem);
+        }
+
+        .forgot-password a {
+            color: #666;
+            text-decoration: none;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+
+        .forgot-password a:hover {
+            color: #6b48ff;
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .login-btn:hover, .signup-btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .login-container:hover {
+                transform: none;
+            }
+        }
+
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .login-btn, .signup-btn {
+                background: #000;
+            }
+            
+            .input-group input:focus {
+                border-color: #000;
+                box-shadow: none;
+            }
+        }
+
+        /* Reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            .login-container,
+            .login-btn,
+            .signup-btn,
+            .input-group input,
+            .input-group label {
+                transition: none;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(45deg, #2a2a2a, #3a3a3a);
+            }
+
+            .login-container {
+                background: rgba(40, 40, 40, 0.95);
+            }
+
+            h2, .input-group label {
+                color: #fff;
+            }
+
+            .input-group input {
+                background: #333;
+                color: #fff;
+                border-color: #444;
+            }
+
+            .forgot-password a {
+                color: #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Welcome Back!</h2>
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="input-group">
+                <input type="email" id="email" name="email" placeholder=" " required>
+                <label for="email">Email Address</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" name="password" placeholder=" " required>
+                <label for="password">Password</label>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="login-btn">Login</button>
+                <a href="{{ url_for('signup') }}" class="signup-btn">Sign Up</a>
+            </div>
+            <div class="forgot-password">
+                <a href="#">Forgot Password?</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

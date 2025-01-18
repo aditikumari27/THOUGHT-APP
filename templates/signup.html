@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Flash Message Styles */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: min(50%, 500px);
+        }
+
+        .message {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.3s ease-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.info {
+            background-color: #cce5ff;
+            color: #004085;
+            border: 1px solid #b8daff;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 0 0 10px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #f3d1a1 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: clamp(1rem, 3vw, 2rem);
+        }
+
+        .container {
+            background: linear-gradient(white, rgb(216, 161, 21));
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: clamp(12px, 3vw, 20px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: min(95%, 400px);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .container:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        h2 {
+            color: #2d3436;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+            text-align: center;
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+            line-height: 1.2;
+        }
+
+        .form-group {
+            margin-bottom: clamp(1rem, 3vw, 1.2rem);
+        }
+
+        label {
+            display: block;
+            margin-bottom: clamp(0.3rem, 2vw, 0.5rem);
+            color: #636e72;
+            font-size: clamp(0.85rem, 2vw, 0.9rem);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: clamp(0.6rem, 2vw, 0.8rem);
+            border: 2px solid #dfe6e9;
+            border-radius: clamp(6px, 2vw, 8px);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #bddcfb;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: clamp(80px, 20vw, 100px);
+            max-height: 200px;
+        }
+
+        button {
+            width: clamp(120px, 40%, 160px);
+            padding: clamp(0.8rem, 2vw, 1rem);
+            background: #14b532;
+            color: white;
+            border: none;
+            border-radius: clamp(6px, 2vw, 8px);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background: #2c91a8;
+        }
+
+        .required {
+            color: #d63031;
+        }
+
+        .password-requirements {
+            font-size: clamp(0.75rem, 1.5vw, 0.8rem);
+            color: #636e72;
+            margin-top: clamp(0.2rem, 1vw, 0.3rem);
+        }
+
+        /* Mobile Optimizations */
+        @media screen and (max-width: 480px) {
+            input, textarea {
+                font-size: 16px;
+            }
+
+            .container {
+                padding: 1.25rem;
+            }
+
+            button {
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+
+        /* Tablet Optimizations */
+        @media screen and (min-width: 481px) and (max-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            }
+
+            .container {
+                background: linear-gradient(#2d3436, #636e72);
+            }
+
+            h2, label {
+                color: #f5f7fa;
+            }
+
+            input, textarea {
+                background: #2d3436;
+                border-color: #636e72;
+                color: #f5f7fa;
+            }
+
+            .password-requirements {
+                color: #dfe6e9;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            .container, button, input, textarea {
+                transition: none;
+            }
+        }
+
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+            .container {
+                background: white;
+                border: 2px solid black;
+            }
+
+            input, textarea {
+                border: 2px solid black;
+            }
+
+            button {
+                background: black;
+                color: white;
+            }
+
+            .required {
+                outline: 2px solid rgb(250, 53, 14);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Flash Messages Container -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="message {{ category }}">
+                        {{ message }}
+                        <button onclick="this.parentElement.remove()" class="close-btn">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <h2>Join Our Creative Community</h2>
+        <form method="post" action="{{url_for('signup')}}">
+            <div class="form-group">
+                <label>Email Address <span class="required">*</span></label>
+                <input type="email" name="email" placeholder="your.email@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password <span class="required">*</span></label>
+                <input type="password" name="password" required>
+                <div class="password-requirements">
+                    Must be at least 8 characters long with numbers and symbols
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" name="phone_number" placeholder="+1 (234) 567-8900">
+            </div>
+
+            <div class="form-group">
+                <label>What do you love about writing? <span class="required">*</span></label>
+                <textarea name="interests" placeholder="Share your passion for writing..." required></textarea>
+            </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</body>
+</html>
